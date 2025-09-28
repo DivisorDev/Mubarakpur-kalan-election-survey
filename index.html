@@ -1,289 +1,244 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gram Panchayat Mubarakpur Kalan — Election Survey</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Gram Panchayat Survey – Mubarakpur Kalan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1: #6a11cb;
-      --bg2: #2575fc;
-      --card: #ffffff;
-      --accent: #ff5e7e;
-      --muted: #6b7280;
+    /* Colourful, Mobile Friendly UI */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: linear-gradient(120deg, #22c1c3, #fdbb2d);
+      margin: 0; padding: 0;
+      min-height: 100vh;
     }
-    *{box-sizing:border-box;font-family:'Poppins',sans-serif}
-    body{margin:0;min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:28px;color:#111}
-    .app{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));border-radius:16px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,0.18)}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,#ff9a9e,#fad0c4);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px}
-    h1{margin:0;font-size:20px}
-    p.note{margin:4px 0 0;color:var(--muted);font-size:13px}
-    .grid{display:grid;grid-template-columns:1fr 420px;gap:18px;margin-top:16px}
-    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 8px 24px rgba(16,24,40,0.06)}
-    .candidates{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-    label.vote-row{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;border:1px solid #f1f1f1}
-    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    .vote-btn{background:linear-gradient(90deg,var(--bg1),var(--bg2));color:white}
-    .small{font-size:13px;color:var(--muted)}
-    .results-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-    .bar-wrap{background:#f3f4f6;padding:8px;border-radius:10px}
-    .bar{height:28px;border-radius:8px;display:flex;align-items:center;padding-left:10px;color:white;font-weight:700}
-    footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
-    .timer{display:flex;gap:8px;align-items:center;font-weight:700}
-    .timer .seg{background:linear-gradient(180deg,#fff, #f7f7f7);padding:6px 10px;border-radius:8px;min-width:56px;text-align:center;box-shadow:0 6px 18px rgba(12,12,12,0.06)}
-    a.email{color:var(--bg1);text-decoration:none;font-weight:600}
-    .disabled{opacity:0.6;pointer-events:none}
-    @media(max-width:880px){ .grid{grid-template-columns:1fr; } }
+    .container {
+      max-width: 400px; margin: 30px auto;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(80,30,0,0.12);
+      padding: 24px 18px; position: relative;
+    }
+    h1, h2 {
+      color: #047857; text-align: center;
+      margin-bottom: 6px;
+    }
+    .note {
+      background: #ffd70054; color: #b45309; font-size: 0.95em;
+      margin-bottom: 16px; border-radius: 6px; padding: 8px;
+      text-align: center;
+    }
+    .timer {
+      background: #f7fafc; color: #e11d48;
+      text-align: center; font-size: 1.25em;
+      border-radius: 6px; margin-bottom: 14px;
+      padding: 7px 0; border: 2px solid #fbbf24;
+    }
+    .vote-form, .result-section {
+      margin-top: 18px;
+    }
+    .vote-form label {
+      display: block; margin: 13px 0 2px 0; color: #570df8;
+    }
+    .candidates {
+      margin-bottom: 20px;
+    }
+    .candidates input {
+      margin-right: 8px;
+    }
+    .btn {
+      background: linear-gradient(90deg, #22c1c3, #fdbb2d 100%);
+      color: #fff; padding: 12px 0; font-size: 1.1em;
+      border: none; border-radius: 7px;
+      cursor: pointer; box-shadow: 0 2px 6px rgba(80,30,0,.1);
+      width: 100%; margin-bottom: 8px; font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:disabled {
+      background: #e2e8f0; color: #b5b5b5; cursor: not-allowed;
+    }
+    .result-table {
+      width: 100%; margin-top: 10px;
+      border-collapse: collapse;
+      font-size: 1em;
+    }
+    .result-table th, .result-table td {
+      border: 1px solid #e5e7eb;
+      padding: 8px;
+      text-align: left;
+    }
+    .result-table th {
+      background: #38bdf8; color: #fff;
+    }
+    .brand-footer {
+      background: #fff8e1; text-align: center;
+      font-size: 0.92em; color: #115e59;
+      border-radius: 0 0 12px 12px;
+      padding: 10px 0 8px 0; border-top: 1px solid #fde68a;
+      position: absolute; left: 0; right: 0; bottom: 0;
+    }
+    @media(max-width:470px){
+      .container { max-width:98vw;padding:16px; }
+      h1 { font-size: 1.15em; }
+    }
   </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="Election Survey">
-    <header>
-      <div class="brand">
-        <div class="logo">DS</div>
-        <div>
-          <h1>Gram Panchayat Mubarakpur Kalan — Election Survey</h1>
-          <p class="note">Note: ye sirf ek survey hai, koi real election voting nahi. All rights reserved. Finovate NEWS</p>
+  <div class="container">
+    <h1>Gram Panchayat Survey</h1>
+    <h2>Mubarakpur Kalan</h2>
+    <div class="note">Note: Ye sirf ek survey hai, <br>real election nahi hai.</div>
+    <div class="timer" id="timerBox">Countdown: Loading...</div>
+
+    <div class="vote-form" id="voteFormSection">
+      <label>Apna Candidate Choose Kare:</label>
+      <form id="voteForm">
+        <div class="candidates">
+          <label><input type="radio" name="candidate" value="Sabeel" required> Sabeel</label>
+          <label><input type="radio" name="candidate" value="Aaftab"> Aaftab</label>
+          <label><input type="radio" name="candidate" value="Asad"> Asad</label>
+          <label><input type="radio" name="candidate" value="Others"> Others</label>
         </div>
-      </div>
-
-      <div style="text-align:right">
-        <div class="small">Contact: <a class="email" href="mailto:divisordevelopment@gmail.com">divisordevelopment@gmail.com</a></div>
-        <div style="height:8px"></div>
-        <div class="timer" aria-live="polite" title="Survey end time">
-          <div style="font-size:12px;color:var(--muted)">Survey ends:</div>
-          <div id="countdown">
-            <span class="seg" id="days">--</span>
-            <span class="seg" id="hours">--</span>
-            <span class="seg" id="mins">--</span>
-            <span class="seg" id="secs">--</span>
-          </div>
-        </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:6px">Until: <strong>Nov 30, 2025 23:59:59 IST</strong></div>
-      </div>
-    </header>
-
-    <div class="grid">
-      <!-- Voting column -->
-      <div class="card" id="votingCard">
-        <h3 style="margin:0 0 6px 0">Vote — Gram Panchayat Mubarakpur Kalan</h3>
-        <div class="small">Select one candidate. (1 IP = 1 vote)</div>
-
-        <div class="candidates" id="candidates">
-          <!-- radios populated by JS -->
-        </div>
-
-        <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
-          <button id="voteBtn" class="btn vote-btn">Vote Now</button>
-          <div id="msg" style="font-weight:700;color:#d23"></div>
-        </div>
-      </div>
-
-      <!-- Results column -->
-      <div class="card">
-        <h3 style="margin:0 0 6px 0">Live Results</h3>
-        <div class="small">Realtime counts for: <strong>Gram Panchayat Mubarakpur Kalan</strong></div>
-
-        <div id="results" class="results-list">
-          <!-- results rendered by JS -->
-        </div>
-
-        <div style="margin-top:12px;font-size:12px;color:var(--muted)">
-          Powered by <strong>Divisor Studio</strong> • All rights reserved • Finovate NEWS
-        </div>
-      </div>
+        <button type="submit" class="btn" id="voteBtn">Vote Kare</button>
+      </form>
+      <div id="voteMsg" style="text-align:center;color:#065f46;font-weight:bold;margin-top:12px;"></div>
+      <button class="btn" onclick="showResults()" style="background:linear-gradient(90deg,#38bdf8,#9fef00);" id="showResultBtn">Result Dekhein</button>
     </div>
 
-    <footer>
-      <div class="small">Village: <strong>Gram Panchayat Mubarakpur Kalan</strong></div>
-      <div class="small">Email: <a class="email" href="mailto:divisordevelopment@gmail.com">divisordevelopment@gmail.com</a></div>
-    </footer>
+    <div class="result-section" id="resultSection" style="display:none;">
+      <h2>Survey Result</h2>
+      <table class="result-table" id="resultTable">
+        <!-- Table fills by script -->
+      </table>
+      <button class="btn" onclick="hideResults()" style="background:linear-gradient(90deg,#51dedc,#fde68a);margin-top:14px;">Back to Voting</button>
+    </div>
+  </div>
+  <div class="brand-footer">
+    All rights reserved Finovate NEWS <br>
+    Powered by Divisor Studio &nbsp;|&nbsp; Connect us: <a href="mailto:divisordevlopment@gmail.com" style="color:#047857;">divisordevlopment@gmail.com</a>
   </div>
 
-  <script type="module">
-    /***********************
-     * CONFIG - replace these placeholders with your values
-     ***********************/
-    const SUPABASE_URL = "https://https://vsnhlniboiylbfhyapjt.supabase.co";
+  <!-- JS: Voting logic, IP restriction, Supabase integration -->
+  <script>
+    // Supabase/Project Config
+    const SUPABASE_URL = "https://vsnhlniboiylbfhyapjt.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbmhsbmlib2l5bGJmaHlhcGp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwNjE5MTIsImV4cCI6MjA3NDYzNzkxMn0.96lMivfcAulzJ_pz4XydZWEiU795B2_QrDHh_jIPh2o";
-    // Edge Function or server endpoint that records votes (must be deployed separately)
     const EDGE_VOTE_URL = "https://vsnhlniboiylbfhyapjt.supabase.co/functions/v1/vote";
-    /***********************/
+    const candidates = ["Sabeel", "Aaftab", "Asad", "Others"];
 
-    // Candidates and village (from user)
-    const CANDIDATES = ["Sabeel", "Aaftab", "Arshad", "Otheres"];
-    const VILLAGE = "Gram Panchayat Mubarakpur Kalan";
-
-    // Render candidates radios
-    const cdiv = document.getElementById("candidates");
-    CANDIDATES.forEach((c, i) => {
-      const id = "cand-" + i;
-      const lbl = document.createElement("label");
-      lbl.className = "vote-row";
-      lbl.innerHTML = `
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:44px;height:44;border-radius:8px;background:linear-gradient(135deg,#fff, #f7f7f7);display:flex;align-items:center;justify-content:center;font-weight:700">${String.fromCharCode(65+i)}</div>
-          <div style="font-weight:700">${c}</div>
-        </div>
-        <input type="radio" name="candidate" value="${c}" id="${id}" ${i===0 ? 'checked' : ''}>
-      `;
-      cdiv.appendChild(lbl);
-    });
-
-    // UI refs
-    const voteBtn = document.getElementById("voteBtn");
-    const msg = document.getElementById("msg");
-    const resultsEl = document.getElementById("results");
-    const votingCard = document.getElementById("votingCard");
-
-    // Countdown: target = Nov 30, 2025 23:59:59 IST (UTC+5:30)
-    // Convert to UTC timestamp:
-    function toUTC(year, monthIndex, day, hour, min, sec, offsetMinutes) {
-      // monthIndex: 0-based
-      // Returns UTC ms
-      const local = new Date(Date.UTC(year, monthIndex, day, hour, min, sec));
-      // local is interpreted as UTC; to get IST time, subtract offset
-      return local.getTime() - (offsetMinutes * 60 * 1000);
-    }
-    // IST offset = +5:30 => 330 minutes
-    const TARGET_UTC_MS = toUTC(2025, 10, 30, 23, 59, 59, 330); // Nov is monthIndex 10
-
-    function updateCountdown() {
-      const now = Date.now();
-      let diff = TARGET_UTC_MS - now;
-      if (diff <= 0) {
-        document.getElementById('days').textContent = '00';
-        document.getElementById('hours').textContent = '00';
-        document.getElementById('mins').textContent = '00';
-        document.getElementById('secs').textContent = '00';
-        // Disable voting when time passed
-        voteBtn.classList.add('disabled');
-        voteBtn.textContent = 'Survey closed';
-        voteBtn.disabled = true;
-        msg.textContent = "Survey closed (deadline passed).";
-        return;
+    // Timer - Countdown till 30 Nov 2025 23:59:59
+    function updateTimer(){
+      const endDate = new Date("2025-11-30T23:59:59");
+      const now = new Date();
+      let dif = endDate-now;
+      if (dif > 0){
+        let days = Math.floor(dif/86400000);
+        let hrs = Math.floor((dif%86400000)/3600000);
+        let mins = Math.floor((dif%3600000)/60000);
+        let secs = Math.floor((dif%60000)/1000);
+        document.getElementById("timerBox").innerHTML =
+          `Countdown: ${days} din, ${hrs} ghante, ${mins} min, ${secs} sec`;
+      } else {
+        document.getElementById("timerBox").innerHTML = "Voting Band Ho Gayi Hai!";
+        document.getElementById("voteBtn").disabled = true;
+        document.getElementById("showResultBtn").style.display = "inline-block";
       }
-      const sec = Math.floor(diff / 1000) % 60;
-      const min = Math.floor(diff / (1000 * 60)) % 60;
-      const hrs = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      document.getElementById('days').textContent = String(days).padStart(2,'0') + 'd';
-      document.getElementById('hours').textContent = String(hrs).padStart(2,'0') + 'h';
-      document.getElementById('mins').textContent = String(min).padStart(2,'0') + 'm';
-      document.getElementById('secs').textContent = String(sec).padStart(2,'0') + 's';
     }
+    setInterval(updateTimer, 1000);
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // Setup Supabase client for realtime reads (replace placeholders)
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { realtime: { params: { eventsPerSecond: 10 } } });
-
-    // Load and render results (aggregate in JS)
-    async function loadAndRenderResults(){
+    // Get IP (third party API, not 100% accurate for proxies, but ok for survey)
+    async function getIP(){
       try {
-        const { data: votes, error } = await supabase
-          .from('votes')
-          .select('candidate')
-          .eq('village', VILLAGE);
-
-        const counts = {};
-        CANDIDATES.forEach(c => counts[c] = 0);
-        if (votes && Array.isArray(votes)) {
-          votes.forEach(v => {
-            const cand = v.candidate || 'Otheres';
-            counts[cand] = (counts[cand] || 0) + 1;
-          });
-        }
-
-        renderBars(counts);
-      } catch (err) {
-        console.error("Error loading results:", err);
+        let resp = await fetch("https://api64.ipify.org?format=json");
+        let json = await resp.json();
+        return json.ip;
+      } catch(e){
+        return null;
       }
     }
 
-    function renderBars(counts){
-      const items = Object.keys(counts).map(k => ({ candidate: k, count: counts[k] }));
-      const total = items.reduce((s,i) => s + i.count, 0) || 1;
-      resultsEl.innerHTML = '';
-      items.forEach(it => {
-        const perc = Math.round((it.count / total) * 100);
-        const wrap = document.createElement('div');
-        wrap.className = 'bar-wrap';
-        wrap.innerHTML = `
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-            <div style="font-weight:700">${it.candidate}</div>
-            <div style="font-weight:700">${it.count} (${perc}%)</div>
-          </div>
-          <div class="bar" style="width:100%;background:linear-gradient(90deg, rgba(106,17,203,0.95), rgba(37,117,252,0.95));">
-            <div style="width:${perc}%;height:100%;border-radius:8px;display:flex;align-items:center;padding-left:10px">${perc}%</div>
-          </div>
-        `;
-        resultsEl.appendChild(wrap);
-      });
-    }
+    // Voting logic
+    document.getElementById("voteForm").onsubmit = async function(e){
+      e.preventDefault();
+      document.getElementById("voteBtn").disabled = true;
+      let chosen = document.querySelector('input[name="candidate"]:checked').value;
 
-    // Realtime subscription to votes table to refresh on inserts
-    supabase
-      .channel('public:votes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, payload => {
-        // reload results when change occurs
-        loadAndRenderResults();
-      })
-      .subscribe();
-
-    // initial load
-    loadAndRenderResults();
-
-    // Vote submission: calls EDGE_VOTE_URL which should be server-side function that enforces one-vote-per-IP
-    voteBtn.addEventListener('click', async () => {
-      msg.textContent = '';
-      if (voteBtn.disabled) return;
-      voteBtn.disabled = true;
-      voteBtn.textContent = 'Submitting...';
-      const selected = document.querySelector('input[name="candidate"]:checked');
-      if (!selected) { msg.textContent = 'Select a candidate'; voteBtn.disabled = false; voteBtn.textContent = 'Vote Now'; return; }
-
-      // If current time past target, block
-      if (Date.now() >= TARGET_UTC_MS) {
-        msg.textContent = 'Survey closed.';
-        voteBtn.disabled = true;
-        voteBtn.textContent = 'Survey closed';
+      // Get voter IP
+      let userIP = await getIP();
+      if(!userIP){
+        document.getElementById("voteMsg").innerText = "IP fetch nahi ho paa rahi hai. Fir se try karein.";
+        document.getElementById("voteBtn").disabled = false;
         return;
       }
 
+      // LocalStorage extra restriction (browser level, not 100% secure)
+      if(localStorage.getItem("survey_vote_"+userIP)){
+        document.getElementById("voteMsg").innerText = "Aapne pehle hi vote diya hai!";
+        document.getElementById("voteBtn").disabled = true;
+        return;
+      }
+
+      // Supabase Edge call (vote log)
       try {
-        const res = await fetch(EDGE_VOTE_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ village: VILLAGE, candidate: selected.value })
+        let voteResp = await fetch(EDGE_VOTE_URL, {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'apikey':SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ ip: userIP, candidate: chosen, village: "Mubarakpur Kalan" })
         });
-
-        if (res.status === 200) {
-          msg.style.color = 'green';
-          msg.textContent = 'Thank you — vote recorded!';
-        } else if (res.status === 409) {
-          msg.style.color = '#d23';
-          msg.textContent = 'You (or your IP) already voted.';
+        let result = await voteResp.json();
+        if(result.success){
+          localStorage.setItem("survey_vote_"+userIP, chosen);
+          document.getElementById("voteMsg").innerText = "Vote successfully cast! Dhanyavaad.";
+          document.getElementById("voteBtn").disabled = true;
         } else {
-          const j = await res.json().catch(()=>null);
-          msg.style.color = '#d23';
-          msg.textContent = j?.reason || 'Unable to record vote.';
+          document.getElementById("voteMsg").innerText = "Vote failed: "+(result.error || "Server error");
         }
-      } catch (err) {
-        console.error(err);
-        msg.style.color = '#d23';
-        msg.textContent = 'Network / server error.';
-      } finally {
-        voteBtn.disabled = false;
-        voteBtn.textContent = 'Vote Now';
+      } catch(err){
+        document.getElementById("voteMsg").innerText = "Network/server error. Try again!";
       }
-    });
+    };
 
+    // Show result (fetches all votes and counts)
+    async function showResults(){
+      document.getElementById("voteFormSection").style.display = "none";
+      document.getElementById("resultSection").style.display = "";
+      let table = document.getElementById("resultTable");
+      table.innerHTML = `<tr><th>Candidate</th><th>Votes</th></tr>`;
+      // Query votes from Supabase REST API
+      try {
+        let resp = await fetch(`${SUPABASE_URL}/rest/v1/votes?village=eq.Mubarakpur%20Kalan`,{
+          headers:{
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization":"Bearer "+SUPABASE_ANON_KEY,
+            "Content-Type":"application/json",
+            "Prefer": "count=exact"
+          }
+        });
+        let votes = await resp.json();
+        let counts = {};
+        candidates.forEach(c=>counts[c]=0);
+        votes.forEach(v=>{
+          if(counts[v.candidate]!==undefined) counts[v.candidate]++;
+          else counts['Others']++;
+        });
+        // Show result rows
+        candidates.forEach(c=>{
+          table.innerHTML += `<tr>
+            <td>${c}</td>
+            <td>${counts[c]}</td>
+          </tr>`;
+        });
+      } catch {
+        table.innerHTML += `<tr><td colspan="2">Result fetch nahi ho paa raha hai.</td></tr>`;
+      }
+    }
+    function hideResults(){
+      document.getElementById("voteFormSection").style.display = "";
+      document.getElementById("resultSection").style.display = "none";
+    }
   </script>
 </body>
-</html>
+  </html>
