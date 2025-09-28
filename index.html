@@ -159,47 +159,57 @@
 
     // Voting logic
     document.getElementById("voteForm").onsubmit = async function(e){
-      e.preventDefault();
+  e.preventDefault();
+  document.getElementById("voteBtn").disabled = true;
+  let chosen = document.querySelector('input[name="candidate"]:checked').value;
+
+  // Get voter IP
+  let userIP = await getIP();
+  if(!userIP){
+    document.getElementById("voteMsg").innerText = "IP fetch nahi ho paa rahi hai. Fir se try karein.";
+    document.getElementById("voteBtn").disabled = false;
+    return;
+  }
+
+  // LocalStorage extra restriction (browser level, not 100% secure)
+  if(localStorage.getItem("survey_vote_"+userIP)){
+    document.getElementById("voteMsg").innerText = "Aapne pehle hi vote diya hai!";
+    document.getElementById("voteBtn").disabled = true;
+    return;
+  }
+
+  // Proper JSON body logging for debugging
+  const votePayload = {
+    ip: userIP,
+    candidate: chosen,
+    village: "Mubarakpur Kalan"
+  };
+  console.log("Sending vote payload:", votePayload);
+
+  // Supabase Edge call (vote log)
+  try {
+    let voteResp = await fetch(EDGE_VOTE_URL, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify(votePayload)
+    });
+    let result = await voteResp.json();
+    if(result.success){
+      localStorage.setItem("survey_vote_"+userIP, chosen);
+      document.getElementById("voteMsg").innerText = "Vote successfully cast! Dhanyavaad.";
       document.getElementById("voteBtn").disabled = true;
-      let chosen = document.querySelector('input[name="candidate"]:checked').value;
-
-      // Get voter IP
-      let userIP = await getIP();
-      if(!userIP){
-        document.getElementById("voteMsg").innerText = "IP fetch nahi ho paa rahi hai. Fir se try karein.";
-        document.getElementById("voteBtn").disabled = false;
-        return;
-      }
-
-      // LocalStorage extra restriction (browser level, not 100% secure)
-      if(localStorage.getItem("survey_vote_"+userIP)){
-        document.getElementById("voteMsg").innerText = "Aapne pehle hi vote diya hai!";
-        document.getElementById("voteBtn").disabled = true;
-        return;
-      }
-
-      // Supabase Edge call (vote log)
-      try {
-        let voteResp = await fetch(EDGE_VOTE_URL, {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'apikey':SUPABASE_ANON_KEY,
-          },
-          body: JSON.stringify({ ip: userIP, candidate: chosen, village: "Mubarakpur Kalan" })
-        });
-        let result = await voteResp.json();
-        if(result.success){
-          localStorage.setItem("survey_vote_"+userIP, chosen);
-          document.getElementById("voteMsg").innerText = "Vote successfully cast! Dhanyavaad.";
-          document.getElementById("voteBtn").disabled = true;
-        } else {
-          document.getElementById("voteMsg").innerText = "Vote failed: "+(result.error || "Server error");
-        }
-      } catch(err){
-        document.getElementById("voteMsg").innerText = "Network/server error. Try again!";
-      }
-    };
+    } else {
+      document.getElementById("voteMsg").innerText = "Vote failed: "+(result.error || "Server error");
+      document.getElementById("voteBtn").disabled = false;
+    }
+  } catch(err){
+    document.getElementById("voteMsg").innerText = "Network/server error. Try again!";
+    document.getElementById("voteBtn").disabled = false;
+  }
+};
 
     // Show result (fetches all votes and counts)
     async function showResults(){
