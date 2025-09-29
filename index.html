@@ -2,253 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gram Panchayat Survey – Mubarakpur Kalan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Gram Panchayat Survey Mubarakpur Kalan</title>
   <style>
-    /* Colourful, Mobile Friendly UI */
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: linear-gradient(120deg, #22c1c3, #fdbb2d);
-      margin: 0; padding: 0;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 400px; margin: 30px auto;
-      background: #fff; border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(80,30,0,0.12);
-      padding: 24px 18px; position: relative;
-    }
-    h1, h2 {
-      color: #047857; text-align: center;
-      margin-bottom: 6px;
-    }
-    .note {
-      background: #ffd70054; color: #b45309; font-size: 0.95em;
-      margin-bottom: 16px; border-radius: 6px; padding: 8px;
-      text-align: center;
-    }
-    .timer {
-      background: #f7fafc; color: #e11d48;
-      text-align: center; font-size: 1.25em;
-      border-radius: 6px; margin-bottom: 14px;
-      padding: 7px 0; border: 2px solid #fbbf24;
-    }
-    .vote-form, .result-section {
-      margin-top: 18px;
-    }
-    .vote-form label {
-      display: block; margin: 13px 0 2px 0; color: #570df8;
-    }
-    .candidates {
-      margin-bottom: 20px;
-    }
-    .candidates input {
-      margin-right: 8px;
-    }
-    .btn {
-      background: linear-gradient(90deg, #22c1c3, #fdbb2d 100%);
-      color: #fff; padding: 12px 0; font-size: 1.1em;
-      border: none; border-radius: 7px;
-      cursor: pointer; box-shadow: 0 2px 6px rgba(80,30,0,.1);
-      width: 100%; margin-bottom: 8px; font-weight: bold;
-      transition: background 0.3s;
-    }
-    .btn:disabled {
-      background: #e2e8f0; color: #b5b5b5; cursor: not-allowed;
-    }
-    .result-table {
-      width: 100%; margin-top: 10px;
-      border-collapse: collapse;
-      font-size: 1em;
-    }
-    .result-table th, .result-table td {
-      border: 1px solid #e5e7eb;
-      padding: 8px;
-      text-align: left;
-    }
-    .result-table th {
-      background: #38bdf8; color: #fff;
-    }
-    .brand-footer {
-      background: #fff8e1; text-align: center;
-      font-size: 0.92em; color: #115e59;
-      border-radius: 0 0 12px 12px;
-      padding: 10px 0 8px 0; border-top: 1px solid #fde68a;
-      position: absolute; left: 0; right: 0; bottom: 0;
-    }
-    @media(max-width:470px){
-      .container { max-width:98vw;padding:16px; }
-      h1 { font-size: 1.15em; }
-    }
+    body { font-family: Arial, sans-serif; background:#f8f9fa; margin:0; padding:20px; }
+    h1 { text-align:center; color:#2c3e50; }
+    .candidate { margin:10px 0; padding:10px; background:#fff; border:1px solid #ddd; border-radius:8px; }
+    button { background:#3498db; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; }
+    button:disabled { background:#aaa; cursor:not-allowed; }
+    #result { margin-top:20px; }
+    #timer { text-align:center; font-weight:bold; margin:15px 0; color:#e74c3c; font-size:18px; }
+    footer { text-align:center; margin-top:40px; font-size:14px; color:#555; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Gram Panchayat Survey</h1>
-    <h2>Mubarakpur Kalan</h2>
-    <div class="note">Note: Ye sirf ek survey hai, <br>real election nahi hai.</div>
-    <div class="timer" id="timerBox">Countdown: Loading...</div>
 
-    <div class="vote-form" id="voteFormSection">
-      <label>Apna Candidate Choose Kare:</label>
-      <form id="voteForm">
-        <div class="candidates">
-          <label><input type="radio" name="candidate" value="Sabeel" required> Sabeel</label>
-          <label><input type="radio" name="candidate" value="Aaftab"> Aaftab</label>
-          <label><input type="radio" name="candidate" value="Asad"> Asad</label>
-          <label><input type="radio" name="candidate" value="Others"> Others</label>
-        </div>
-        <button type="submit" class="btn" id="voteBtn">Vote Kare</button>
-      </form>
-      <div id="voteMsg" style="text-align:center;color:#065f46;font-weight:bold;margin-top:12px;"></div>
-      <button class="btn" onclick="showResults()" style="background:linear-gradient(90deg,#38bdf8,#9fef00);" id="showResultBtn">Result Dekhein</button>
-    </div>
+<h1>Gram Panchayat Survey - Mubarakpur Kalan</h1>
+<p style="text-align:center;">⚠️ Yeh ek demo survey hai, asli chunav voting nahi.</p>
 
-    <div class="result-section" id="resultSection" style="display:none;">
-      <h2>Survey Result</h2>
-      <table class="result-table" id="resultTable">
-        <!-- Table fills by script -->
-      </table>
-      <button class="btn" onclick="hideResults()" style="background:linear-gradient(90deg,#51dedc,#fde68a);margin-top:14px;">Back to Voting</button>
-    </div>
-  </div>
-  <div class="brand-footer">
-    All rights reserved Finovate NEWS <br>
-    Powered by Divisor Studio &nbsp;|&nbsp; Connect us: <a href="mailto:divisordevlopment@gmail.com" style="color:#047857;">divisordevlopment@gmail.com</a>
-  </div>
+<div id="timer"></div>
 
-  <!-- JS: Voting logic, IP restriction, Supabase integration -->
-  <script>
-    // Supabase/Project Config
-    const SUPABASE_URL = "https://vsnhlniboiylbfhyapjt.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzbmhsbmlib2l5bGJmaHlhcGp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwNjE5MTIsImV4cCI6MjA3NDYzNzkxMn0.96lMivfcAulzJ_pz4XydZWEiU795B2_QrDHh_jIPh2o";
-    const EDGE_VOTE_URL = "https://vsnhlniboiylbfhyapjt.supabase.co/functions/v1/vote";
-    const candidates = ["Sabeel", "Aaftab", "Asad", "Others"];
+<div id="candidates"></div>
 
-    // Timer - Countdown till 30 Nov 2025 23:59:59
-    function updateTimer(){
-      const endDate = new Date("2025-11-30T23:59:59");
-      const now = new Date();
-      let dif = endDate-now;
-      if (dif > 0){
-        let days = Math.floor(dif/86400000);
-        let hrs = Math.floor((dif%86400000)/3600000);
-        let mins = Math.floor((dif%3600000)/60000);
-        let secs = Math.floor((dif%60000)/1000);
-        document.getElementById("timerBox").innerHTML =
-          `Countdown: ${days} din, ${hrs} ghante, ${mins} min, ${secs} sec`;
-      } else {
-        document.getElementById("timerBox").innerHTML = "Voting Band Ho Gayi Hai!";
-        document.getElementById("voteBtn").disabled = true;
-        document.getElementById("showResultBtn").style.display = "inline-block";
-      }
-    }
-    setInterval(updateTimer, 1000);
+<div style="text-align:center; margin-top:20px;">
+  <button onclick="showResults()">Result Dekho</button>
+</div>
 
-    // Get IP (third party API, not 100% accurate for proxies, but ok for survey)
-    async function getIP(){
-      try {
-        let resp = await fetch("https://api64.ipify.org?format=json");
-        let json = await resp.json();
-        return json.ip;
-      } catch(e){
-        return null;
-      }
+<div id="result"></div>
+
+<footer>
+  <p>Ye survey <strong>20 November  2025</strong> ko khatam ho jayega</p>
+  <p>Contact: <a href="mailto:divisorindustries@gmail.com">divisorindustries@gmail.com</a></p>
+  <p>Powered by Divisor Studios</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ✅ Supabase config
+  const SUPABASE_URL = "https://rmkcfvpbdhstmbxemzyx.supabase.co"; // tumhara project ref
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJta2NmdnBiZGhzdG1ieGVtenl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDI5NjUsImV4cCI6MjA3NDcxODk2NX0.IzNvx_UuKIBdhgFLTiQHhxwMus4cGHL1ED2Z-U9z0rk";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ✅ Candidate list
+  const candidates = [
+    "Sabeel",
+    "Aaftab",
+    "Asad",  
+    "Others",
+  ];
+
+  // ✅ Survey end date (fixed)
+  const surveyEnd = new Date("2025-11-20T23:59:59");
+
+  const container = document.getElementById("candidates");
+  const timerDiv = document.getElementById("timer");
+
+  // Countdown Timer
+  function updateTimer() {
+    const now = new Date();
+    const diff = surveyEnd - now;
+
+    if (diff <= 0) {
+      timerDiv.innerHTML = "⏰ Survey khatam ho gaya!";
+      container.innerHTML = "<p style='color:red; font-weight:bold;'>Voting band ho gayi hai. Sirf result dekh sakte ho.</p>";
+      return;
     }
 
-    // Voting logic
-    document.getElementById("voteForm").onsubmit = async function(e){
-  e.preventDefault();
-  document.getElementById("voteBtn").disabled = true;
-  let chosen = document.querySelector('input[name="candidate"]:checked').value;
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    let minutes = Math.floor((diff / (1000 * 60)) % 60);
+    let seconds = Math.floor((diff / 1000) % 60);
 
-  // Get voter IP
-  let userIP = await getIP();
-  if(!userIP){
-    document.getElementById("voteMsg").innerText = "IP fetch nahi ho paa rahi hai. Fir se try karein.";
-    document.getElementById("voteBtn").disabled = false;
-    return;
+    timerDiv.innerHTML = `Survey khatam hone me: ${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
-  // LocalStorage extra restriction (browser level, not 100% secure)
-  if(localStorage.getItem("survey_vote_"+userIP)){
-    document.getElementById("voteMsg").innerText = "Aapne pehle hi vote diya hai!";
-    document.getElementById("voteBtn").disabled = true;
-    return;
-  }
+  setInterval(updateTimer, 1000);
+  updateTimer();
 
-  // Proper JSON body logging for debugging
-  const votePayload = {
-    ip: userIP,
-    candidate: chosen,
-    village: "Mubarakpur Kalan"
-  };
-  console.log("Sending vote payload:", votePayload);
-
-  // Supabase Edge call (vote log)
-  try {
-    let voteResp = await fetch(EDGE_VOTE_URL, {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'apikey':SUPABASE_ANON_KEY,
-      },
-      body: JSON.stringify(votePayload)
+  // Render candidates
+  async function renderCandidates(disabled=false) {
+    container.innerHTML = '';
+    candidates.forEach(name => {
+      let div = document.createElement("div");
+      div.className = "candidate";
+      let btn = document.createElement("button");
+      btn.innerText = "Vote " + name;
+      btn.disabled = disabled;
+      btn.onclick = async () => {
+        await handleVote(name);
+      };
+      div.innerHTML = `<strong>${name}</strong><br>`;
+      div.appendChild(btn);
+      container.appendChild(div);
     });
-    let result = await voteResp.json();
-    if(result.success){
-      localStorage.setItem("survey_vote_"+userIP, chosen);
-      document.getElementById("voteMsg").innerText = "Vote successfully cast! Dhanyavaad.";
-      document.getElementById("voteBtn").disabled = true;
-    } else {
-      document.getElementById("voteMsg").innerText = "Vote failed: "+(result.error || "Server error");
-      document.getElementById("voteBtn").disabled = false;
-    }
-  } catch(err){
-    document.getElementById("voteMsg").innerText = "Network/server error. Try again!";
-    document.getElementById("voteBtn").disabled = false;
   }
-};
 
-    // Show result (fetches all votes and counts)
-    async function showResults(){
-      document.getElementById("voteFormSection").style.display = "none";
-      document.getElementById("resultSection").style.display = "";
-      let table = document.getElementById("resultTable");
-      table.innerHTML = `<tr><th>Candidate</th><th>Votes</th></tr>`;
-      // Query votes from Supabase REST API
-      try {
-        let resp = await fetch(`${SUPABASE_URL}/rest/v1/votes?village=eq.Mubarakpur%20Kalan`,{
-          headers:{
-            "apikey": SUPABASE_ANON_KEY,
-            "Authorization":"Bearer "+SUPABASE_ANON_KEY,
-            "Content-Type":"application/json",
-            "Prefer": "count=exact"
-          }
-        });
-        let votes = await resp.json();
-        let counts = {};
-        candidates.forEach(c=>counts[c]=0);
-        votes.forEach(v=>{
-          if(counts[v.candidate]!==undefined) counts[v.candidate]++;
-          else counts['Others']++;
-        });
-        // Show result rows
-        candidates.forEach(c=>{
-          table.innerHTML += `<tr>
-            <td>${c}</td>
-            <td>${counts[c]}</td>
-          </tr>`;
-        });
-      } catch {
-        table.innerHTML += `<tr><td colspan="2">Result fetch nahi ho paa raha hai.</td></tr>`;
+  // Handle vote → insert into Supabase (with 1 IP restriction)
+async function handleVote(option) {
+  try {
+    // Get user IP
+    let res = await fetch("https://api64.ipify.org?format=json");
+    let ipData = await res.json();
+    let userIp = ipData.ip;
+
+    // Try to insert vote with IP
+    const { error } = await supabase.from('votes').insert([{ option, ip_address: userIp }]);
+
+    if (error) {
+      if (error.code === '23505') {
+        alert("⚠️ Aap is device/IP se pehle hi vote kar chuke ho!");
+      } else {
+        alert("Vote save karne me error aaya.");
+        console.error(error);
       }
+    } else {
+      alert("✅ Aapne " + option + " ko vote diya.");
     }
-    function hideResults(){
-      document.getElementById("voteFormSection").style.display = "";
-      document.getElementById("resultSection").style.display = "none";
+  } catch (e) {
+    console.error("IP fetch error:", e);
+    alert("IP address fetch karne me dikkat aayi.");
+  }
+}
+  // Show results from Supabase
+  async function showResults() {
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "<h2>Survey Results</h2>";
+
+    const { data, error } = await supabase.from('votes').select('option');
+    if (error) {
+      resultDiv.innerHTML += "<p>Error results fetch karne me.</p>";
+      return;
     }
-  </script>
+
+    let counts = {};
+    data.forEach(v => { counts[v.option] = (counts[v.option]||0)+1 });
+    let total = data.length;
+    if (total === 0) {
+      resultDiv.innerHTML += "<p>Abhi tak koi vote nahi aaya.</p>";
+      return;
+    }
+    candidates.forEach(name => {
+      let count = counts[name] || 0;
+      let percent = ((count / total) * 100).toFixed(1);
+      resultDiv.innerHTML += `<p>${name}: ${count} votes (${percent}%)</p>`;
+      resultDiv.innerHTML += `<div style=\"background:#ddd; border-radius:5px; margin-bottom:5px;\">\n        <div style=\"width:${percent}%; background:#3498db; color:white; padding:3px; border-radius:5px;\">${percent}%</div>\n      </div>`;
+    });
+  }
+
+  renderCandidates();
+
+  // Supabase realtime subscription for live updates
+  supabase
+    .channel('custom-all-channel')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
+      showResults();
+    })
+    .subscribe();
+
+</script>
+
 </body>
 </html>
