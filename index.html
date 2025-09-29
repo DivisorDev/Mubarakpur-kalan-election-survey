@@ -111,9 +111,7 @@ async function handleVote(option) {
       if (error.code === '23505') {
         alert("⚠️ Aap is device/IP se pehle hi vote kar chuke ho!");
       } else {
-        alert("Vote save karne me error aaya.");
-        console.error(error);
-      }
+        
     } else {
       alert("✅ Aapne " + option + " ko vote diya.");
     }
